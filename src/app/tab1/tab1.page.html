@@ -1,0 +1,48 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="success">
+    <ion-title>
+      El Notas 2
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <ion-content class="ion-padding">
+    <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+      <ion-refresher-content
+        pullingIcon="chevron-down-circle-outline"
+        refreshingSpinner="dots"
+        refreshingText="Refreshing..."
+      >
+      </ion-refresher-content>
+    </ion-refresher>
+  <ion-list>
+    @for(note of noteS.notes$ | async;track note.key){
+    <ion-item-sliding (ionSwipe)="deleteNoteSliding(note)">
+      <ion-item-options side="start">
+        <ion-item-option color="primary">
+          <ion-icon slot="start" src="assets/icons/create.svg" (click)="editNote(note)" style="zoom: 1.5;"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+  
+      <ion-item>
+        <ion-thumbnail slot="start"><img [src]=note.img></ion-thumbnail>
+        <ion-label>{{note.title}}</ion-label>
+        <p>{{note.description}}</p>
+      </ion-item>
+  
+      <ion-item-options side="end">
+        <ion-item-option color="danger" expandable>
+          <ion-icon slot="start" src="assets/icons/trash.svg" (click)="deleteNote(note)" style="zoom: 1.5;"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  }
+  </ion-list>
+  @if(isInfiniteScrollAvailable){
+    <ion-infinite-scroll (ionInfinite)="loadMore($event)">
+      <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more notes..."></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  }
+</ion-content>
