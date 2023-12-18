@@ -19,8 +19,8 @@
     </ion-refresher>
   <ion-list>
     @for(note of noteS.notes$ | async;track note.key){
-    <ion-item-sliding (ionSwipe)="deleteNoteSliding(note)">
-      <ion-item-options side="start">
+    <ion-item-sliding>
+      <ion-item-options side="start" (ionSwipe)="editNote(note)">
         <ion-item-option color="primary">
           <ion-icon slot="start" src="assets/icons/create.svg" (click)="editNote(note)" style="zoom: 1.5;"></ion-icon>
         </ion-item-option>
@@ -32,7 +32,7 @@
         <p>{{note.description}}</p>
       </ion-item>
   
-      <ion-item-options side="end">
+      <ion-item-options side="end" (ionSwipe)="deleteNoteSliding(note)">
         <ion-item-option color="danger" expandable>
           <ion-icon slot="start" src="assets/icons/trash.svg" (click)="deleteNote(note)" style="zoom: 1.5;"></ion-icon>
         </ion-item-option>
